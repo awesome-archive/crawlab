@@ -12,6 +12,12 @@ import file from './modules/file'
 import schedule from './modules/schedule'
 import lang from './modules/lang'
 import site from './modules/site'
+import stats from './modules/stats'
+import setting from './modules/setting'
+import version from './modules/version'
+import tour from './modules/tour'
+import project from './modules/project'
+import doc from './modules/doc'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -29,7 +35,14 @@ const store = new Vuex.Store({
     file,
     schedule,
     lang,
-    site
+    site,
+    setting,
+    version,
+    tour,
+    project,
+    doc,
+    // 统计
+    stats
   },
   getters
 })

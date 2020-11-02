@@ -6,11 +6,12 @@ import zh from './zh'
 Vue.use(VueI18n)
 
 const i18n = new VueI18n({
-  locale: localStorage.getItem('lang') || 'en',
+  locale: localStorage.getItem('lang') || 'zh',
   messages: {
     en,
     zh
-  }
+  },
+  silentTranslationWarn: true
 })
 
 export default i18n

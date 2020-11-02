@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import store from '../store'
+import request from '../api/request'
+import stats from '../utils/stats'
+
 /* Layout */
 import Layout from '../views/layout/Layout'
 
@@ -23,7 +27,16 @@ Vue.use(Router)
   }
  **/
 export const constantRouterMap = [
-  { path: '/login', component: () => import('../views/login/index'), hidden: true },
+  {
+    path: '/login',
+    component: () => import('../views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/signup',
+    component: () => import('../views/login/index'),
+    hidden: true
+  },
   { path: '/404', component: () => import('../views/404'), hidden: true },
   { path: '/', redirect: '/home' },
 
@@ -43,37 +56,25 @@ export const constantRouterMap = [
     ]
   },
   {
-    name: 'Node',
-    path: '/nodes',
+    path: '/projects',
     component: Layout,
     meta: {
-      title: 'Node',
-      icon: 'fa fa-server'
+      title: 'Project',
+      icon: 'fa fa-gear'
     },
     children: [
       {
         path: '',
-        name: 'NodeList',
-        component: () => import('../views/node/NodeList'),
+        name: 'Project',
+        component: () => import('../views/project/ProjectList'),
         meta: {
-          title: 'Nodes',
-          icon: 'fa fa-server'
+          title: 'Project',
+          icon: 'fa fa-code-fork'
         }
-      },
-      {
-        path: ':id',
-        name: 'NodeDetail',
-        component: () => import('../views/node/NodeDetail'),
-        meta: {
-          title: 'Node Detail',
-          icon: 'fa fa-circle-o'
-        },
-        hidden: true
       }
     ]
   },
   {
-    name: 'Spider',
     path: '/spiders',
     component: Layout,
     meta: {
@@ -103,7 +104,6 @@ export const constantRouterMap = [
     ]
   },
   {
-    name: 'Task',
     path: '/tasks',
     component: Layout,
     meta: {
@@ -133,7 +133,6 @@ export const constantRouterMap = [
     ]
   },
   {
-    name: 'Schedule',
     path: '/schedules',
     component: Layout,
     meta: {
@@ -154,29 +153,28 @@ export const constantRouterMap = [
     ]
   },
   {
-    name: 'Deploy',
-    path: '/deploys',
+    path: '/nodes',
     component: Layout,
     meta: {
-      title: 'Deploy',
-      icon: 'fa fa-cloud'
+      title: 'Node',
+      icon: 'fa fa-server'
     },
     children: [
       {
         path: '',
-        name: 'DeployList',
-        component: () => import('../views/deploy/DeployList'),
+        name: 'NodeList',
+        component: () => import('../views/node/NodeList'),
         meta: {
-          title: 'Deploys',
-          icon: 'fa fa-cloud'
+          title: 'Nodes',
+          icon: 'fa fa-server'
         }
       },
       {
         path: ':id',
-        name: 'DeployDetail',
-        component: () => import('../views/deploy/DeployDetail'),
+        name: 'NodeDetail',
+        component: () => import('../views/node/NodeDetail'),
         meta: {
-          title: 'Deploy Detail',
+          title: 'Node Detail',
           icon: 'fa fa-circle-o'
         },
         hidden: true
@@ -184,21 +182,117 @@ export const constantRouterMap = [
     ]
   },
   {
-    name: 'Site',
-    path: '/sites',
+    path: '/repos',
     component: Layout,
     meta: {
-      title: 'Site',
-      icon: 'fa fa-sitemap'
+      title: 'Spider Market',
+      icon: 'fa fa-cloud'
     },
     children: [
       {
         path: '',
-        name: 'SiteList',
-        component: () => import('../views/site/SiteList'),
+        name: 'RepoList',
+        component: () => import('../views/repo/RepoList'),
         meta: {
-          title: 'Sites',
-          icon: 'fa fa-sitemap'
+          title: 'Spider Market',
+          icon: 'fa fa-cloud'
+        }
+      }
+    ]
+  },
+  {
+    path: '/disclaimer',
+    component: Layout,
+    meta: {
+      title: 'Disclaimer',
+      icon: 'fa fa-exclamation-triangle'
+    },
+    hidden: true,
+    children: [
+      {
+        path: '',
+        name: 'Disclaimer',
+        component: () => import('../views/doc/Disclaimer'),
+        meta: {
+          title: 'Disclaimer',
+          icon: 'fa fa-exclamation-triangle'
+        }
+      }
+    ]
+  },
+  // {
+  //   path: '/challenges',
+  //   component: Layout,
+  //   meta: {
+  //     title: 'ChallengeList',
+  //     icon: 'fa fa-flash'
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'ChallengeList',
+  //       component: () => import('../views/challenge/ChallengeList'),
+  //       meta: {
+  //         title: 'Challenges',
+  //         icon: 'fa fa-flash'
+  //       }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/feedback',
+    component: Layout,
+    meta: {
+      title: 'Feedback',
+      icon: 'fa fa-commenting-o'
+    },
+    hidden: true,
+    children: [
+      {
+        path: '',
+        name: 'Feedback',
+        component: () => import('../views/feedback/Feedback'),
+        meta: {
+          title: 'Feedback',
+          icon: 'fa fa-commenting'
+        }
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: Layout,
+    meta: {
+      title: 'User',
+      icon: 'fa fa-users'
+    },
+    children: [
+      {
+        path: '',
+        name: 'UserList',
+        component: () => import('../views/user/UserList'),
+        meta: {
+          title: 'Users',
+          icon: 'fa fa-users'
+        }
+      }
+    ]
+  },
+  {
+    path: '/setting',
+    component: Layout,
+    meta: {
+      title: 'Setting',
+      icon: 'fa fa-gear'
+    },
+    children: [
+      {
+        path: '',
+        name: 'Setting',
+        component: () => import('../views/setting/Setting'),
+        meta: {
+          title: 'Setting',
+          icon: 'fa fa-gear'
         }
       }
     ]
@@ -219,7 +313,27 @@ router.beforeEach((to, from, next) => {
   } else {
     window.document.title = 'Crawlab'
   }
-  next()
+
+  if (['/login', '/signup'].includes(to.path)) {
+    next()
+  } else {
+    if (window.localStorage.getItem('token')) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
+})
+
+router.afterEach(async(to, from, next) => {
+  if (to.path) {
+    await store.dispatch('setting/getSetting')
+    const res = await request.get('/version')
+    const version = res.data.data
+    store.commit('version/SET_VERSION', version)
+    sessionStorage.setItem('v', version)
+    stats.sendPv(to.path)
+  }
 })
 
 export default router
